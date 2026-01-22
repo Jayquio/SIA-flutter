@@ -2,7 +2,7 @@ class Instrument {
   final String name;
   final String category;
   final int quantity;
-  final int available;
+  int available;
   final String status;
   final String condition;
   final String location;

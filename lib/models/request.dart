@@ -1,4 +1,4 @@
-enum RequestStatus { pending, approved, rejected }
+enum RequestStatus { pending, approved, rejected, returned }
 
 class Request {
   final String studentName;

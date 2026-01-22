@@ -13,12 +13,10 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
+          DrawerHeader(
+            decoration: BoxDecoration(color: Colors.blue),
             child: Text(
-              "MedLab Inventory",
+              'MedLab Inventory',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -31,14 +29,21 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.dashboard),
               title: const Text("Dashboard"),
               onTap: () {
-                Navigator.pushNamed(context, '/dashboard');
+                Navigator.pushNamed(context, '/admin_dashboard');
               },
             ),
             ListTile(
-              leading: const Icon(Icons.science),
+              leading: const Icon(Icons.inventory),
               title: const Text("Manage Instruments"),
               onTap: () {
                 Navigator.pushNamed(context, '/manage_instruments');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.people),
+              title: const Text("User Management"),
+              onTap: () {
+                Navigator.pushNamed(context, '/user_management');
               },
             ),
             ListTile(
@@ -48,17 +53,45 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pushNamed(context, '/manage_requests');
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.report),
+              title: const Text("Generate Reports"),
+              onTap: () {
+                Navigator.pushNamed(context, '/generate_reports');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.history),
+              title: const Text("Audit Logs"),
+              onTap: () {
+                Navigator.pushNamed(context, '/audit_logs');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.notifications),
+              title: const Text("Notification Center"),
+              onTap: () {
+                Navigator.pushNamed(context, '/notification_center');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text("Settings"),
+              onTap: () {
+                Navigator.pushNamed(context, '/settings', arguments: userRole);
+              },
+            ),
           ],
           if (userRole == 'Staff') ...[
             ListTile(
               leading: const Icon(Icons.inventory),
               title: const Text("Monitor Inventory"),
               onTap: () {
-                Navigator.pushNamed(context, '/monitor_inventory');
+                Navigator.pushNamed(context, '/view_instruments');
               },
             ),
             ListTile(
-              leading: const Icon(Icons.build),
+              leading: Icon(Icons.build),
               title: const Text("Log Maintenance"),
               onTap: () {
                 Navigator.pushNamed(context, '/log_maintenance');
@@ -71,20 +104,48 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pushNamed(context, '/manage_requests');
               },
             ),
-          ],
-          if (userRole == 'Student') ...[
             ListTile(
-              leading: const Icon(Icons.request_page),
-              title: const Text("My Requests"),
+              leading: const Icon(Icons.assignment_return),
+              title: const Text("Handle Returns"),
               onTap: () {
-                Navigator.pushNamed(context, '/my_requests');
+                Navigator.pushNamed(context, '/handle_returns');
               },
             ),
             ListTile(
-              leading: const Icon(Icons.search),
-              title: const Text("Request Instrument"),
+              leading: const Icon(Icons.settings),
+              title: const Text("Settings"),
               onTap: () {
-                Navigator.pushNamed(context, '/request_instrument');
+                Navigator.pushNamed(context, '/settings', arguments: userRole);
+              },
+            ),
+          ],
+          if (userRole == 'Student') ...[
+            ListTile(
+              leading: const Icon(Icons.inventory),
+              title: const Text("View Instruments"),
+              onTap: () {
+                Navigator.pushNamed(context, '/view_instruments');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.add),
+              title: const Text("Submit Request"),
+              onTap: () {
+                Navigator.pushNamed(context, '/submit_request');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.track_changes),
+              title: const Text("Track Status"),
+              onTap: () {
+                Navigator.pushNamed(context, '/track_status');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text("Settings"),
+              onTap: () {
+                Navigator.pushNamed(context, '/settings', arguments: userRole);
               },
             ),
           ],

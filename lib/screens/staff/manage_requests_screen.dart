@@ -12,10 +12,18 @@ class ManageRequestsScreen extends StatefulWidget {
 }
 
 class _ManageRequestsScreenState extends State<ManageRequestsScreen> {
-  // Handling request updates: approve or reject
   void _updateRequestStatus(int index, RequestStatus status) {
     setState(() {
       requests[index].status = status;
+      if (status == RequestStatus.approved) {
+        // Update instrument availability
+        final instrument = instruments.firstWhere(
+          (inst) => inst.name == requests[index].instrumentName,
+        );
+        if (instrument.available > 0) {
+          instrument.available--;
+        }
+      }
     });
   }
 
@@ -27,6 +35,8 @@ class _ManageRequestsScreenState extends State<ManageRequestsScreen> {
         return Colors.red;
       case RequestStatus.pending:
         return Colors.orange;
+      case RequestStatus.returned:
+        return Colors.blue;
     }
   }
 
