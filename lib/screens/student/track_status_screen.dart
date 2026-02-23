@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import '../../data/dummy_data.dart';
 import '../../models/request.dart';
+import '../../widgets/search_bar.dart';
 
 class TrackStatusScreen extends StatefulWidget {
   const TrackStatusScreen({super.key});
@@ -51,12 +52,9 @@ class _TrackStatusScreenState extends State<TrackStatusScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            TextField(
+            DebouncedSearchBar(
               controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: 'Enter your name to search requests',
-                suffixIcon: Icon(Icons.search),
-              ),
+              hintText: 'Enter your name to search requests',
               onChanged: (value) => _searchRequests(),
             ),
             const SizedBox(height: 16),

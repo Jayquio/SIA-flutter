@@ -5,6 +5,9 @@ import '../../core/theme.dart';
 import '../admin/admin_dashboard.dart';
 import '../staff/staff_dashboard.dart';
 import '../student/student_dashboard.dart';
+import '../../data/auth_service.dart';
+import '../../widgets/module_search_bar.dart';
+import '../../data/notification_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -29,16 +32,58 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     if (username == 'admin' && password == 'admin') {
+      ModuleSearchController.instance.setQuery('');
+      AuthService.instance.setUsername(username);
+      AuthService.instance.setRole(UserRole.admin);
+      NotificationService.instance.add(
+        NotificationItem(
+          id: DateTime.now().microsecondsSinceEpoch.toString(),
+          title: 'User Login',
+          message: 'Admin logged in',
+          type: 'login',
+          timestamp: DateTime.now().toIso8601String(),
+          recipient: 'Admin',
+          priority: 'low',
+        ),
+      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => AdminDashboard()),
       );
     } else if (username == 'staff' && password == 'staff') {
+      ModuleSearchController.instance.setQuery('');
+      AuthService.instance.setUsername(username);
+      AuthService.instance.setRole(UserRole.staff);
+      NotificationService.instance.add(
+        NotificationItem(
+          id: DateTime.now().microsecondsSinceEpoch.toString(),
+          title: 'User Login',
+          message: 'Staff logged in',
+          type: 'login',
+          timestamp: DateTime.now().toIso8601String(),
+          recipient: 'Admin',
+          priority: 'low',
+        ),
+      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => StaffDashboard()),
       );
     } else if (username == 'student' && password == 'student') {
+      ModuleSearchController.instance.setQuery('');
+      AuthService.instance.setUsername(username);
+      AuthService.instance.setRole(UserRole.student);
+      NotificationService.instance.add(
+        NotificationItem(
+          id: DateTime.now().microsecondsSinceEpoch.toString(),
+          title: 'User Login',
+          message: 'Student logged in',
+          type: 'login',
+          timestamp: DateTime.now().toIso8601String(),
+          recipient: 'Admin',
+          priority: 'low',
+        ),
+      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => StudentDashboard()),
@@ -60,9 +105,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Center(
           child: SingleChildScrollView(
             child: Container(
-              width: 450,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(40),
+              constraints: const BoxConstraints(maxWidth: 420),
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(24),
@@ -225,6 +271,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextButton.icon(
+                    onPressed: () => Navigator.pushNamed(context, '/qr_scanner', arguments: 'Login'),
+                    icon: const Icon(Icons.qr_code_scanner),
+                    label: const Text('Sign in with QR'),
                   ),
                   const SizedBox(height: 20),
                   // Demo Credentials

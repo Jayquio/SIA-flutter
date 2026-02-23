@@ -1,6 +1,7 @@
 // lib/screens/admin/user_management_screen.dart
 
 import 'package:flutter/material.dart';
+import '../../widgets/search_bar.dart';
 
 class UserManagementScreen extends StatefulWidget {
   const UserManagementScreen({super.key});
@@ -10,6 +11,7 @@ class UserManagementScreen extends StatefulWidget {
 }
 
 class _UserManagementScreenState extends State<UserManagementScreen> {
+  final TextEditingController _searchController = TextEditingController();
   final List<Map<String, dynamic>> _users = [
     {
       'id': '1',
@@ -243,6 +245,15 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final searchTerm = _searchController.text.toLowerCase();
+    final filteredUsers = _users.where((user) {
+      if (searchTerm.isEmpty) return true;
+      return user['name'].toLowerCase().contains(searchTerm) ||
+          user['email'].toLowerCase().contains(searchTerm) ||
+          user['role'].toLowerCase().contains(searchTerm) ||
+          user['status'].toLowerCase().contains(searchTerm);
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Management'),
@@ -256,6 +267,14 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: DebouncedSearchBar(
+              controller: _searchController,
+              hintText: 'Search users...',
+              onChanged: (value) => setState(() {}),
+            ),
+          ),
           // Summary Cards
           Padding(
             padding: const EdgeInsets.all(16),
@@ -304,9 +323,10 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: _users.length,
+              itemCount: filteredUsers.length,
               itemBuilder: (context, index) {
-                final user = _users[index];
+                final user = filteredUsers[index];
+                final originalIndex = _users.indexOf(user);
                 return Card(
                   elevation: 4,
                   margin: const EdgeInsets.only(bottom: 12),
@@ -367,12 +387,12 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.edit),
-                                  onPressed: () => _editUser(index),
+                                  onPressed: () => _editUser(originalIndex),
                                   tooltip: 'Edit User',
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.delete, color: Colors.red),
-                                  onPressed: () => _deleteUser(index),
+                                  onPressed: () => _deleteUser(originalIndex),
                                   tooltip: 'Delete User',
                                 ),
                               ],
@@ -394,5 +414,11 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 }

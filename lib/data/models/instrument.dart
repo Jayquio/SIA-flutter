@@ -9,6 +9,7 @@ class Instrument {
   final String condition;
   final String location;
   final String lastMaintenance;
+  final String? imageAsset;
 
   const Instrument({
     required this.name,
@@ -19,5 +20,6 @@ class Instrument {
     required this.condition,
     required this.location,
     required this.lastMaintenance,
+    this.imageAsset,
   });
 }

@@ -1,16 +1,17 @@
-// lib/screens/admin/audit_logs_screen.dart
+// lib/screens/admin/transaction_logs_screen.dart
 
 import 'package:flutter/material.dart';
+import '../../widgets/search_bar.dart';
 
-class AuditLogsScreen extends StatefulWidget {
-  const AuditLogsScreen({super.key});
+class TransactionLogsScreen extends StatefulWidget {
+  const TransactionLogsScreen({super.key});
 
   @override
-  State<AuditLogsScreen> createState() => _AuditLogsScreenState();
+  State<TransactionLogsScreen> createState() => _TransactionLogsScreenState();
 }
 
-class _AuditLogsScreenState extends State<AuditLogsScreen> {
-  final List<Map<String, dynamic>> _auditLogs = [
+class _TransactionLogsScreenState extends State<TransactionLogsScreen> {
+  final List<Map<String, dynamic>> _transactionLogs = [
     {
       'id': '1',
       'timestamp': '2024-01-20 10:30:15',
@@ -89,7 +90,7 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   List<Map<String, dynamic>> get _filteredLogs {
-    List<Map<String, dynamic>> filtered = _auditLogs;
+    List<Map<String, dynamic>> filtered = _transactionLogs;
 
     // Filter by action type
     if (_selectedFilter != 'All') {
@@ -168,7 +169,7 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Audit Logs'),
+        title: const Text('Transaction Logs'),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(120),
           child: Padding(
@@ -176,17 +177,9 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
             child: Column(
               children: [
                 // Search Bar
-                TextField(
+                DebouncedSearchBar(
                   controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search logs...',
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
+                  hintText: 'Search logs...',
                   onChanged: (value) => setState(() {}),
                 ),
                 const SizedBox(height: 8),
@@ -238,7 +231,7 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
                       child: Column(
                         children: [
                           Text(
-                            _auditLogs.length.toString(),
+                            _transactionLogs.length.toString(),
                             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                           ),
                           const Text('Total Logs'),

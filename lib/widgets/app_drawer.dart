@@ -62,9 +62,9 @@ class AppDrawer extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.history),
-              title: const Text("Audit Logs"),
+              title: const Text("Transaction Logs"),
               onTap: () {
-                Navigator.pushNamed(context, '/audit_logs');
+                Navigator.pushNamed(context, '/transaction_logs');
               },
             ),
             ListTile(
@@ -87,7 +87,7 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.inventory),
               title: const Text("Monitor Inventory"),
               onTap: () {
-                Navigator.pushNamed(context, '/view_instruments');
+                Navigator.pushNamed(context, '/view_instruments', arguments: 'Staff');
               },
             ),
             ListTile(
@@ -124,7 +124,7 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.inventory),
               title: const Text("View Instruments"),
               onTap: () {
-                Navigator.pushNamed(context, '/view_instruments');
+                Navigator.pushNamed(context, '/view_instruments', arguments: 'Student');
               },
             ),
             ListTile(
